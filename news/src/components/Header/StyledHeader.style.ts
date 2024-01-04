@@ -12,6 +12,9 @@ export const HeaderHolder = styled.div`
   display: flex;
   justify-content: space-between;
 `;
+export const HeaderCountries = styled.div`
+  display: flex;
+`;
 export const HeaderLinks = styled.div`
   display: flex;
 `;

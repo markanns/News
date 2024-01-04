@@ -1,6 +1,6 @@
 import { GlobalStyles } from "./styles/Global";
 import { Route, Routes } from "react-router-dom";
-import { TopNews, Categories } from "./components/index";
+import { TopNews, Categories, Search } from "./components/index";
 import Header from "./components/Header/Header";
 function App() {
   return (
@@ -15,6 +15,7 @@ function App() {
           </Route> */}
         <Route path="topNews" element={<TopNews />} />
         <Route path="categories" element={<Categories />} />
+        <Route path="search" element={<Search />} />
         {/* <Route path="*" element={<Error />} /> */}
       </Routes>
     </>

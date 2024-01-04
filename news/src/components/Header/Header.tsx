@@ -1,9 +1,10 @@
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import {
   HeaderStyle,
   HeaderHolder,
   HeaderLinks,
   NavLinkItem,
+  HeaderCountries,
 } from "./StyledHeader.style";
 import { Wrap } from "../../styles/Global";
 
@@ -19,7 +20,14 @@ const Header = () => {
             <NavLinkItem>
               <NavLink to="/categories">Categories</NavLink>
             </NavLinkItem>
+            <NavLinkItem>
+              <NavLink to="/search">Search</NavLink>
+            </NavLinkItem>
           </HeaderLinks>
+          <HeaderCountries>
+            <button>GB</button>
+            <button>US</button>
+          </HeaderCountries>
         </HeaderHolder>
       </Wrap>
     </HeaderStyle>
