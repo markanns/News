@@ -1,7 +1,8 @@
+import News from "../News/News";
 const TopNews = () => {
   return (
     <div>
-      <h1>Top News</h1>
+      <News />
     </div>
   );
 };
