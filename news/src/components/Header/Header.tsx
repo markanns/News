@@ -1,4 +1,6 @@
 import { NavLink } from "react-router-dom";
+import { useState } from "react";
+import { useNewsContext } from "../NewsContext/NewsContext";
 import {
   HeaderStyle,
   HeaderHolder,

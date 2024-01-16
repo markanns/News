@@ -1,9 +1,11 @@
 import News from "../News/News";
+import { Wrap } from "../../styles/Global";
+
 const TopNews = () => {
   return (
-    <div>
+    <Wrap>
       <News />
-    </div>
+    </Wrap>
   );
 };
 
