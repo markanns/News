@@ -2,10 +2,12 @@ import { GlobalStyles } from "./styles/Global";
 import { Route, Routes } from "react-router-dom";
 import { TopNews, Categories, Search } from "./components/index";
 import Header from "./components/Header/Header";
+import { NewsProvider } from "./components/NewsContext/NewsContext"; 
 function App() {
   return (
     <>
       <GlobalStyles />
+      <NewsProvider>
       <Header />
       <Routes>
         <Route path="/" element={<TopNews />} />
@@ -18,6 +20,7 @@ function App() {
         <Route path="search" element={<Search />} />
         {/* <Route path="*" element={<Error />} /> */}
       </Routes>
+      </NewsProvider>
     </>
   );
 }

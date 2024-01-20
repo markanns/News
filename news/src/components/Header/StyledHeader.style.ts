@@ -29,3 +29,13 @@ export const NavLinkItem = styled.span`
     }
   }
 `;
+export const CountryButton = styled.button<{ $isActive: boolean }>`
+  background-color: #f8f8f8;
+  padding: 10px 15px;
+  font-size: 16px;
+  border: none;
+  &:hover {
+    cursor: pointer;
+  }
+  ${(props) => props.$isActive && `background-color: #e8e8e8;`}
+`;
