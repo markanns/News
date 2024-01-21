@@ -14,7 +14,7 @@ export const useNewsContext = () => {
   return useContext(NewsContext);
 };
 export const NewsProvider = ({ children }: { children: ReactNode }) => {
-  const [country, setCountry] = useState<string>("us");
+  const [country, setCountry] = useState<string>("US");
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     const targetText = event.currentTarget.textContent;

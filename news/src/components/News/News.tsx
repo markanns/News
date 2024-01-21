@@ -20,6 +20,7 @@ const News = () => {
     title: string;
     description: string;
     urlToImage: string;
+    content: string;
   };
 
   const newsList = (
@@ -30,6 +31,7 @@ const News = () => {
           title={item.title}
           description={item.description}
           image={item.urlToImage}
+          content={item.content}
         />
       ))}
     </>

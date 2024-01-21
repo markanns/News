@@ -8,7 +8,7 @@ body {
 }`;
 export const Wrap = styled.div`
   width: 100%;
-  max-width: 1600px;
+  max-width: 1437px;
   margin: 0 auto;
   padding: 0 20px;
 `;
