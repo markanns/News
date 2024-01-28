@@ -1,10 +1,19 @@
-import { ReactNode, createContext, useState, useEffect, useContext } from "react";
+import {
+  ReactNode,
+  createContext,
+  useState,
+  useEffect,
+  useContext,
+} from "react";
 
 type NewsContextType = {
   country: string;
   isActive: boolean;
   news: NewsItem[];
-  handleClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
+
+  handleClickOnCountryButton: (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => void;
   handleButtonsState: () => void;
   handleActiveButton: () => void;
 };
@@ -12,7 +21,7 @@ const NewsContext = createContext<NewsContextType>({
   country: "",
   news: [],
   isActive: true,
-  handleClick: () => {},
+  handleClickOnCountryButton: () => {},
   handleButtonsState: () => {},
   handleActiveButton: () => {},
 });
@@ -33,7 +42,6 @@ export const NewsProvider = ({ children }: { children: ReactNode }) => {
   const [country, setCountry] = useState<string>("US");
   const [isActive, setIsActive] = useState<boolean>(true);
 
-
   useEffect(() => {
     fetch(
       `https://newsapi.org/v2/top-headlines?country=${country}&apiKey=f62196a68b7b41d385329a19658c8625`
@@ -44,21 +52,52 @@ export const NewsProvider = ({ children }: { children: ReactNode }) => {
       });
   }, [country]);
 
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  // useEffect(() => {
+  //   const categories = [
+  //     "business",
+  //     "entertainment",
+  //     "science",
+  //     "sports",
+  //     "technology",
+  //   ];
+  //   Promise.all(
+  //     categories.map((category) =>
+  //       fetch(
+  //         `https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&apiKey=f62196a68b7b41d385329a19658c8625`
+  //       ).then((response) => response.json())
+  //     )
+  //   ).then((data) => {
+  //     const allArticles = data.flatMap((d) => d.articles);
+  //     setCategories(allArticles);
+  //   });
+  // }, [country]);
+
+  const handleClickOnCountryButton = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
     const targetText = event.currentTarget.textContent;
     setCountry(targetText!);
   };
 
-  const handleButtonsState = () =>{
+  const handleButtonsState = () => {
     setIsActive(!isActive);
   };
-const handleActiveButton = () => {
-  if (isActive === false) {
-    setIsActive(true);
-  }
-};
+  const handleActiveButton = () => {
+    if (isActive === false) {
+      setIsActive(true);
+    }
+  };
   return (
-    <NewsContext.Provider value={{ country, handleClick, news, handleButtonsState, isActive, handleActiveButton }}>
+    <NewsContext.Provider
+      value={{
+        country,
+        handleClickOnCountryButton,
+        news,
+        handleButtonsState,
+        isActive,
+        handleActiveButton,
+      }}
+    >
       {children}
     </NewsContext.Provider>
   );

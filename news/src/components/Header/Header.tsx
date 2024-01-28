@@ -13,18 +13,18 @@ import { Wrap } from "../../styles/Global";
 
 const Header = () => {
   const [active, setActive] = useState<number>(1);
-  const { handleClick } = useNewsContext();
-  const {isActive} = useNewsContext();
+  const { handleClickOnCountryButton } = useNewsContext();
+  const { isActive } = useNewsContext();
   const { handleActiveButton } = useNewsContext();
-  
+
   const handleDisableButton = () => {
     handleActiveButton();
-  }
+  };
   const handleCountryChange = (
     event: React.MouseEvent<HTMLButtonElement>,
     id: number
   ) => {
-    handleClick(event);
+    handleClickOnCountryButton(event);
     setActive(id);
   };
 
@@ -50,13 +50,19 @@ const Header = () => {
         <HeaderHolder>
           <HeaderLinks>
             <NavLinkItem>
-              <NavLink to="/topNews"  onClick={handleDisableButton}>Top News</NavLink>
+              <NavLink to="/topNews" onClick={handleDisableButton}>
+                Top News
+              </NavLink>
             </NavLinkItem>
             <NavLinkItem>
-              <NavLink to="/categories" onClick={handleDisableButton}>Categories</NavLink>
+              <NavLink to="/categories" onClick={handleDisableButton}>
+                Categories
+              </NavLink>
             </NavLinkItem>
             <NavLinkItem>
-              <NavLink to="/search" onClick={handleDisableButton}>Search</NavLink>
+              <NavLink to="/search" onClick={handleDisableButton}>
+                Search
+              </NavLink>
             </NavLinkItem>
           </HeaderLinks>
           <HeaderCountries>{countryButton}</HeaderCountries>
