@@ -1,6 +1,7 @@
 import { ThumbnailItem, Image } from "./StyledThumbnail";
 import { Link } from "react-router-dom";
 import { useNewsContext } from "../NewsContext/NewsContext";
+import { useLocation } from "react-router-dom";
 
 type ThumbnailNews = {
   title: string;
@@ -9,6 +10,7 @@ type ThumbnailNews = {
 };
 const Thumbnail = ({ title, description, image }: ThumbnailNews) => {
   const { handleButtonsState } = useNewsContext();
+  const location = useLocation();
 
   const handleDisableButton = () => {
     handleButtonsState();
@@ -21,7 +23,7 @@ const Thumbnail = ({ title, description, image }: ThumbnailNews) => {
       <h3>{title}</h3>
       <Image src={image || defaultImage} alt={title} />
       <p>{description}</p>
-      <Link to={`/topNews/${title}`} onClick={handleDisableButton}>
+      <Link to={`${location.pathname}/${title}`} onClick={handleDisableButton}>
         Read more
       </Link>
     </ThumbnailItem>

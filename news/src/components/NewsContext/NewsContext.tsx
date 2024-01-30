@@ -10,7 +10,7 @@ type NewsContextType = {
   country: string;
   isActive: boolean;
   news: NewsItem[];
-
+  // businessNews: NewsItem[];
   handleClickOnCountryButton: (
     event: React.MouseEvent<HTMLButtonElement>
   ) => void;
@@ -20,6 +20,7 @@ type NewsContextType = {
 const NewsContext = createContext<NewsContextType>({
   country: "",
   news: [],
+  // businessNews: [],
   isActive: true,
   handleClickOnCountryButton: () => {},
   handleButtonsState: () => {},
@@ -41,6 +42,7 @@ export const NewsProvider = ({ children }: { children: ReactNode }) => {
   const [news, setNews] = useState<NewsItem[]>([]);
   const [country, setCountry] = useState<string>("US");
   const [isActive, setIsActive] = useState<boolean>(true);
+  // const [businessNews, setBusinessNews] = useState<NewsItem[]>([]);
 
   useEffect(() => {
     fetch(
@@ -51,27 +53,15 @@ export const NewsProvider = ({ children }: { children: ReactNode }) => {
         setNews(data.articles);
       });
   }, [country]);
-
   // useEffect(() => {
-  //   const categories = [
-  //     "business",
-  //     "entertainment",
-  //     "science",
-  //     "sports",
-  //     "technology",
-  //   ];
-  //   Promise.all(
-  //     categories.map((category) =>
-  //       fetch(
-  //         `https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&apiKey=f62196a68b7b41d385329a19658c8625`
-  //       ).then((response) => response.json())
-  //     )
-  //   ).then((data) => {
-  //     const allArticles = data.flatMap((d) => d.articles);
-  //     setCategories(allArticles);
-  //   });
+  //   fetch(
+  //     `https://newsapi.org/v2/top-headlines?country=${country}&category=business&apiKey=f62196a68b7b41d385329a19658c8625`
+  //   )
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       setBusinessNews(data.articles);
+  //     });
   // }, [country]);
-
   const handleClickOnCountryButton = (
     event: React.MouseEvent<HTMLButtonElement>
   ) => {
@@ -91,6 +81,7 @@ export const NewsProvider = ({ children }: { children: ReactNode }) => {
     <NewsContext.Provider
       value={{
         country,
+        // businessNews,
         handleClickOnCountryButton,
         news,
         handleButtonsState,

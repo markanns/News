@@ -3,7 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import { TopNews, Categories, Search } from "./components/index";
 import Header from "./components/Header/Header";
 import { NewsProvider } from "./components/NewsContext/NewsContext";
-
+import SingleCategoryNews from "./components/SingleCategoryNews/SingleCategoryNews";
 import SingleNews from "./components/SingleNews/SingleNews";
 
 function App() {
@@ -18,7 +18,10 @@ function App() {
             <Route index element={<TopNews />} />
             <Route path=":title" element={<SingleNews />} />
           </Route>
-          <Route path="categories" element={<Categories />} />
+          <Route path="categories">
+            <Route index element={<Categories />} />
+            <Route path=":title" element={<SingleCategoryNews />} />
+          </Route>
           <Route path="search" element={<Search />} />
         </Routes>
       </NewsProvider>
