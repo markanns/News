@@ -7,8 +7,8 @@ type NewsItem = {
   urlToImage: string;
   content: string;
 };
-const Business = ({ businessNews }: { businessNews: NewsItem[] }) => {
-  const businessNewsList = businessNews
+const Technology = ({ technologyNews }: { technologyNews: NewsItem[] }) => {
+  const teschnologyNewsList = technologyNews
     .slice(0, 5)
     .map((item, index) => (
       <ChategoriesThumbnail
@@ -16,16 +16,16 @@ const Business = ({ businessNews }: { businessNews: NewsItem[] }) => {
         title={item.title}
         description={item.description}
         image={item.urlToImage}
-        categorie="business"
+        categorie="technology"
       />
     ));
 
   return (
     <div>
-      <h2>Business</h2>
-      <NewsHolder>{businessNewsList}</NewsHolder>
+      <h2>Technology</h2>
+      <NewsHolder>{teschnologyNewsList}</NewsHolder>
     </div>
   );
 };
 
-export default Business;
+export default Technology;

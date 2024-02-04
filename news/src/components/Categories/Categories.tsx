@@ -1,34 +1,20 @@
-import { useState, useEffect } from "react";
 import { useNewsContext } from "../NewsContext/NewsContext";
 import Business from "../Categories/Business/Business";
+import Technology from "../Categories/Technology/Technology";
 import { Wrap } from "../../styles/Global";
 import { NewsHolder } from "./StyledCategories";
 
-type NewsItem = {
-  title: string;
-  description: string;
-  urlToImage: string;
-  content: string;
-};
 const Categories = () => {
   const { country } = useNewsContext();
-
-  const [businessNews, setBusinessNews] = useState<NewsItem[]>([]);
-  useEffect(() => {
-    fetch(
-      `https://newsapi.org/v2/top-headlines?country=${country}&category=business&apiKey=f62196a68b7b41d385329a19658c8625`
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        setBusinessNews(data.articles);
-      });
-  }, [country]);
+  const { businessNews } = useNewsContext();
+  const { technologyNews } = useNewsContext();
 
   return (
     <Wrap>
       <h2>Top 5 news by categories from {country}</h2>
       <NewsHolder>
-        <Business businessNews={businessNews}/>
+        <Business businessNews={businessNews} />
+        <Technology technologyNews={technologyNews} />
       </NewsHolder>
     </Wrap>
   );
