@@ -7,6 +7,7 @@ type ThumbnailNews = {
   title: string;
   description: string;
   image: string;
+  
 };
 const Thumbnail = ({ title, description, image }: ThumbnailNews) => {
   const { handleButtonsState } = useNewsContext();

@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useNewsContext } from "../NewsContext/NewsContext";
-import Thumbnail from "../Thumbnail/Thumbnail";
 import Business from "../Categories/Business/Business";
 import { Wrap } from "../../styles/Global";
 import { NewsHolder } from "./StyledCategories";
@@ -29,7 +28,7 @@ const Categories = () => {
     <Wrap>
       <h2>Top 5 news by categories from {country}</h2>
       <NewsHolder>
-        <Business />
+        <Business businessNews={businessNews}/>
       </NewsHolder>
     </Wrap>
   );

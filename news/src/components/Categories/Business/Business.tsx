@@ -1,19 +1,13 @@
-import { useEffect, useState } from "react";
-import { useNewsContext } from "../../NewsContext/NewsContext";
 import Thumbnail from "../../Thumbnail/Thumbnail";
 import { NewsHolder } from "../StyledCategories";
 
-// type NewsItem = {
-//   title: string;
-//   description: string;
-//   urlToImage: string;
-//   content: string;
-// };
-const Business = () => {
-  const { country } = useNewsContext();
-  // const { businessNews } = useNewsContext();
-  const [businessNews, setBusinessNews] = useState<NewsItem[]>([]);
-
+type NewsItem = {
+  title: string;
+  description: string;
+  urlToImage: string;
+  content: string;
+};
+const Business = ({ businessNews }: { businessNews: NewsItem[] }) => {
   const businessNewsList = businessNews
     .slice(0, 5)
     .map((item, index) => (
