@@ -5,8 +5,8 @@ import Header from "./components/Header/Header";
 import { NewsProvider } from "./components/NewsContext/NewsContext";
 import SingleCategoryNews from "./components/SingleCategoryNews/SingleCategoryNews";
 import SingleNews from "./components/SingleNews/SingleNews";
-// import Business from "./components/Categories/Business/Business";
-
+import AllCategories from "./components/AllCategories/AllCategories";
+import Error from "./components/Error/Error";
 function App() {
   return (
     <>
@@ -22,8 +22,13 @@ function App() {
           <Route path="categories">
             <Route index element={<Categories />} />
             <Route path=":categorie/:title" element={<SingleCategoryNews />} />
+            <Route path=":categorie/allcategorie" element={<AllCategories />} />
           </Route>
-          <Route path="search" element={<Search />} />
+          <Route path="search">
+            <Route index element={<Search />} />
+            <Route path=":title" element={<SingleNews />} />
+          </Route>
+          <Route path="*" element={<Error />} />
         </Routes>
       </NewsProvider>
     </>

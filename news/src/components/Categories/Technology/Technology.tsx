@@ -1,5 +1,7 @@
 import ChategoriesThumbnail from "../../CategoriesThumbnail/CategoriesThumbnail";
 import { NewsHolder } from "../StyledCategories";
+import {LinkItem} from "./StyledTechnology";
+
 
 type NewsItem = {
   title: string;
@@ -22,7 +24,7 @@ const Technology = ({ technologyNews }: { technologyNews: NewsItem[] }) => {
 
   return (
     <div>
-      <h2>Technology</h2>
+      <LinkItem to="technology/allcategorie">Technology</LinkItem>
       <NewsHolder>{teschnologyNewsList}</NewsHolder>
     </div>
   );

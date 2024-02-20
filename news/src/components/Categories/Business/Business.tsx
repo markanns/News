@@ -1,5 +1,7 @@
 import ChategoriesThumbnail from "../../CategoriesThumbnail/CategoriesThumbnail";
 import { NewsHolder } from "../StyledCategories";
+// import { Link } from "react-router-dom";
+import {LinkItem} from "./StyledBusiness";
 
 type NewsItem = {
   title: string;
@@ -19,10 +21,10 @@ const Business = ({ businessNews }: { businessNews: NewsItem[] }) => {
         categorie="business"
       />
     ));
-
+    
   return (
     <div>
-      <h2>Business</h2>
+      <LinkItem to="business/allcategorie">Business</LinkItem>
       <NewsHolder>{businessNewsList}</NewsHolder>
     </div>
   );
