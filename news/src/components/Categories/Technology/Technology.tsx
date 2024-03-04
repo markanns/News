@@ -1,7 +1,9 @@
 import ChategoriesThumbnail from "../../CategoriesThumbnail/CategoriesThumbnail";
 import { NewsHolder } from "../StyledCategories";
-import {LinkItem} from "./StyledTechnology";
-
+import { LinkItem } from "./StyledTechnology";
+import NewsServices from "../../NewsService/NewsServices";
+import { useNewsContext } from "../../NewsContext/NewsContext";
+import { useState, useEffect } from "react";
 
 type NewsItem = {
   title: string;
@@ -9,8 +11,18 @@ type NewsItem = {
   urlToImage: string;
   content: string;
 };
-const Technology = ({ technologyNews }: { technologyNews: NewsItem[] }) => {
-  const teschnologyNewsList = technologyNews
+
+const Category = (category: { category: string }) => {
+  const { country } = useNewsContext();
+  const [kategorija, setKategorija] = useState<NewsItem[]>([]);
+
+  useEffect(() => {
+    NewsServices(country, category.category).then((data) => {
+      setKategorija(data);
+    });
+  }, [country, category.category]);
+
+  const teschnologyNewsList = kategorija
     .slice(0, 5)
     .map((item, index) => (
       <ChategoriesThumbnail
@@ -18,7 +30,7 @@ const Technology = ({ technologyNews }: { technologyNews: NewsItem[] }) => {
         title={item.title}
         description={item.description}
         image={item.urlToImage}
-        categorie="technology"
+        categorie={category.category}
       />
     ));
 
@@ -30,4 +42,4 @@ const Technology = ({ technologyNews }: { technologyNews: NewsItem[] }) => {
   );
 };
 
-export default Technology;
+export default Category;

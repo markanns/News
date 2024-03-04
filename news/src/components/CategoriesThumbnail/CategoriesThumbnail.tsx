@@ -29,7 +29,14 @@ const ChategoriesThumbnail = ({
       <h3>{title}</h3>
       <Image src={image || defaultImage} alt={title} />
       <p>{description}</p>
-      {categorie && <Link to={`${location.pathname}/${categorie}/${title}`} onClick={handleDisableButton}>Read more</Link>}
+      {categorie && (
+        <Link
+          to={`${location.pathname}/${categorie}/${title}`}
+          onClick={handleDisableButton}
+        >
+          Read more
+        </Link>
+      )}
     </ThumbnailItem>
   );
 };
