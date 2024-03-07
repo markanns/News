@@ -7,9 +7,11 @@ type ThumbnailNews = {
   title: string;
   description: string;
   image: string;
-  
+  category?: string;
+  isCategoryThumbnail?: boolean;
+  isSingleThumbnail?: boolean;
 };
-const Thumbnail = ({ title, description, image }: ThumbnailNews) => {
+const Thumbnail = ({ title, description, image, category, isCategoryThumbnail, isSingleThumbnail }: ThumbnailNews) => {
   const { handleButtonsState } = useNewsContext();
   const location = useLocation();
 
@@ -24,9 +26,18 @@ const Thumbnail = ({ title, description, image }: ThumbnailNews) => {
       <h3>{title}</h3>
       <Image src={image || defaultImage} alt={title} />
       <p>{description}</p>
+      {category && isCategoryThumbnail && (
+        <Link
+          to={`${location.pathname}/${category}/${title}`}
+          onClick={handleDisableButton}
+        >
+          Read more
+        </Link>)}
+        {isSingleThumbnail && (
       <Link to={`${location.pathname}/${title}`} onClick={handleDisableButton}>
         Read more
       </Link>
+        )}
     </ThumbnailItem>
   );
 };
