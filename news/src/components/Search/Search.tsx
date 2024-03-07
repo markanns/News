@@ -4,7 +4,7 @@ import { Wrap } from "../../styles/Global";
 import { debounce } from 'lodash';
 import { useNewsContext } from "../NewsContext/NewsContext";
 import { ThumbnailItem, Image } from "../Thumbnail/StyledThumbnail";
-import { NewsHolder } from "../News/StyledNews";
+import { NewsHolder } from "../TopNews/StyledTopNews";
 import Thumbnail from "../Thumbnail/Thumbnail";
 
 type NewsItem = {
@@ -54,6 +54,7 @@ const Search = () => {
         title={item.title}
         description={item.description}
         image={item.urlToImage}
+        isSingleThumbnail={true}
       />
     ))
   return (

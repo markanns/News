@@ -2,35 +2,32 @@ import { useParams, Link } from "react-router-dom";
 import { useNewsContext } from "../NewsContext/NewsContext";
 import { Wrap } from "../../styles/Global";
 import { SingleNewsImage } from "../SingleNews/Styled.SingleNews";
+import useCategory from "../../hooks/useCategory";
+
 
 const SingleCategoryNews = () => {
   const { title } = useParams<{ title: string }>();
-  const { categorie } = useParams<{ categorie: string }>();
-  const { businessNews } = useNewsContext();
-  const { technologyNews } = useNewsContext();
+  const { category } = useParams() as { category: string };
   const { handleButtonsState } = useNewsContext();
   const handleDisableButton = () => {
     handleButtonsState();
   };
-  let singleCategorieNews;
-  if (categorie === "technology") {
-    singleCategorieNews = technologyNews.find((n) => n.title === title);
-  }
-  if (categorie === "business") {
-    singleCategorieNews = businessNews.find((n) => n.title === title);
-  }
+  
+  const listOfCategories = useCategory(category).singleCategory;
+  const singleCategoryNews = listOfCategories.find((n) => n.title === title);
 
-  if (!singleCategorieNews) {
-    return <div>News not found</div>;
-  }
   return (
     <Wrap>
-      <h1>{singleCategorieNews.title}</h1>
-      <SingleNewsImage
-        src={singleCategorieNews.urlToImage}
-        alt={singleCategorieNews.title}
-      />
-      <p>{singleCategorieNews.content}</p>
+      {singleCategoryNews && (
+        <>
+          <h1>{singleCategoryNews.title}</h1>
+          <SingleNewsImage
+            src={singleCategoryNews.urlToImage}
+            alt={singleCategoryNews.title}
+          />
+          <p>{singleCategoryNews.content}</p>
+        </>
+      )}
       <Link to="/categories" onClick={handleDisableButton}>
         back to categories news
       </Link>
