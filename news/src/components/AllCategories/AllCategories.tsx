@@ -1,51 +1,38 @@
+import React from "react";
 import { useParams } from "react-router-dom";
-import { useNewsContext } from "../NewsContext/NewsContext";
-import ChategoriesThumbnail from "../CategoriesThumbnail/CategoriesThumbnail";
-import { NewsHolder } from "../News/StyledNews";
+import Thumbnail from "../Thumbnail/Thumbnail";
+import { NewsHolder } from "../TopNews/StyledTopNews";
 import { Wrap } from "../../styles/Global";
+import useCategory from "../../hooks/useCategory";
+import  ImagePlaceholder  from "../ImagePlaceholder/ImagePlaceholder";
 
 const AllCategories = () => {
-  const { businessNews } = useNewsContext();
-  const { technologyNews } = useNewsContext();
-  const { categorie } = useParams<{ categorie: string }>();
+  const { category } = useParams() as { category: string };
+  const { singleCategory, isLoading, isError } = useCategory(category);
 
-  let allCategorieNews;
-  if (categorie === "technology") {
-    allCategorieNews = (
-      <>
-        {technologyNews.map((item, index) => (
-          <ChategoriesThumbnail
+  let allCategoryNews;
+  if (isLoading  || !singleCategory) {
+    allCategoryNews = Array.from({ length: 5 }, (_, index) => React.cloneElement(<ImagePlaceholder/>, { key: index }));
+  } else {
+    allCategoryNews = singleCategory
+        .map((item, index) => (
+          <Thumbnail
           key={index}
           title={item.title}
           description={item.description}
           image={item.urlToImage}
         />
-        ))}
-      </>
-    );
-  }
-  if (categorie === "business") {
-    allCategorieNews = (
-      <>
-        {businessNews.map((item, index) => (
-          <ChategoriesThumbnail
-          key={index}
-          title={item.title}
-          description={item.description}
-          image={item.urlToImage}
-        />
-        ))}
-      </>
-    );
-  }
+        ));
 
-  
+  }
   return (
     <div>
       <Wrap>
-        <h1>{categorie}</h1> 
+        <h1>{category}</h1> 
+        {isError && <p>Something went wrong...</p>}
+        {isLoading && <p>Loading...</p>}
         <NewsHolder>
-          {allCategorieNews}
+          {allCategoryNews}
         </NewsHolder>
       </Wrap>
     </div>
