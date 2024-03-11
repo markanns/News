@@ -14,7 +14,6 @@ const useCategory = ( category: string ) => {
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
   const [singleCategory, setSingleCategory] = useState<NewsItem[]>([]);
-    console.log(country, category);
     
   useEffect(() => {
         GetNewsByCategory(country, category).then((data) => {
