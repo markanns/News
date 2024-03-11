@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback, useMemo, useEffect} from "react";
 import {InputHolder} from "./StyledSearch";
 import { Wrap } from "../../styles/Global";
 import { debounce } from 'lodash';
@@ -6,6 +6,9 @@ import { useNewsContext } from "../NewsContext/NewsContext";
 import { ThumbnailItem, Image } from "../Thumbnail/StyledThumbnail";
 import { NewsHolder } from "../TopNews/StyledTopNews";
 import Thumbnail from "../Thumbnail/Thumbnail";
+import useSearch from "../../hooks/useSearch";
+import { useNavigate, useLocation } from "react-router-dom";
+
 
 type NewsItem = {
   title: string;
@@ -13,58 +16,73 @@ type NewsItem = {
   urlToImage: string;
   content: string;
 };
+type SearchProps = string;
 
 const Search = () => {
-  const [searchTerm, setSearchTerm] = useState("");
   const { news } = useNewsContext();
-  const [searchedNews, setSearchedNews] = useState<NewsItem[]>([]);
+  const location = useLocation();
+  const params = useMemo(() => new URLSearchParams(location.search), [location.search]);
+  const navigate = useNavigate();
+  const [searchTerm, setSearchTerm] = useState<SearchProps>(params.get('term') || '' );
+  const { result, isLoading, isError } = useSearch(searchTerm);
+  const [inputValue, setInputValue] = useState(searchTerm);
 
+  useEffect(() => {
+    const termFromUrl = params.get('term');
+    if (termFromUrl) {
+      setSearchTerm(termFromUrl);
+    }
+  }, [params]); 
+
+  useEffect(() => {
+    if (searchTerm) {
+      navigate(`/search?term=${searchTerm}`);
+    } else {
+      navigate(`/search`);
+    }
+  }, [searchTerm, navigate]);
+  
   const sendRequest = useCallback((value: string) => {
-
-    const searchedTopNews = news.filter((item) => {
-      return item.title.toLowerCase().includes(value.toLowerCase()) || (item.description && item.description.toLowerCase().includes(value.toLowerCase()));
-    });
-    setSearchedNews(searchedTopNews);
-  }, [news]);
+    setSearchTerm(value); 
+  }, []);
 
   const debouncedSendRequest = useMemo(() => {
     return debounce(sendRequest, 1000);
   }, [sendRequest]);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(event.target.value);
+    setInputValue(event.target.value);
     debouncedSendRequest(event.target.value);
   };
   
-  const searchedArticles : NewsItem[] = searchedNews;
-   
-
-  const articles = searchedArticles.map((item, index) => (
+  const articles =  result.map((item: NewsItem, index : number) => (
     <ThumbnailItem key={index}>
         <h3>{item.title}</h3>
         <p>{item.description}</p>
         <Image src={item.urlToImage} alt={item.title} />
         <p>{item.content}</p>
     </ThumbnailItem>
-  ))  
-  const presentNews = articles.length > 0 ? articles : <h3>No news found</h3>;
+  ));
 
-    const allNews = news.map((item, index) => (
-      <Thumbnail key={index}
-        title={item.title}
-        description={item.description}
-        image={item.urlToImage}
-        isSingleThumbnail={true}
-      />
-    ))
+  const allNews = news.map((item, index) => (
+    <Thumbnail key={index}
+      title={item.title}
+      description={item.description}
+      image={item.urlToImage}
+      isSingleThumbnail={true}
+    />
+  ));
+      
   return (
     <Wrap>
       <h2>Search for news</h2>
       <InputHolder>
-        <input type="text" placeholder="Search for news..." value={searchTerm} onChange={handleInputChange} />
+        <input type="text" value={inputValue} placeholder="Search for news..." onChange={handleInputChange} />
         </InputHolder>
+        {isError && <p>Something went wrong...</p>}
+          {isLoading && <p>Loading...</p>}
           <NewsHolder>
-          {searchTerm ? presentNews : allNews}
+          {searchTerm ? articles : allNews}
           </NewsHolder>
     </Wrap>
   );

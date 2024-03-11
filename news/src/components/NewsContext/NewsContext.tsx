@@ -12,6 +12,7 @@ type NewsContextType = {
   country: string;
   isActive: boolean;
   news: NewsItem[];
+  isLoading: boolean;
   handleClickOnCountryButton: (
     event: React.MouseEvent<HTMLButtonElement>
   ) => void;
@@ -22,6 +23,7 @@ const NewsContext = createContext<NewsContextType>({
   country: "",
   news: [],
   isActive: true,
+  isLoading: true,
   handleClickOnCountryButton: () => {},
   handleButtonsState: () => {},
   handleActiveButton: () => {},
@@ -41,7 +43,7 @@ export const useNewsContext = () => {
 export const NewsProvider = ({ children }: { children: ReactNode }) => {
   const [country, setCountry] = useState<string>("US");
   const [isActive, setIsActive] = useState<boolean>(true);
-  const {news} = useTopNews(country);
+  const {news, isLoading} = useTopNews(country);
 
   const handleClickOnCountryButton = (
     event: React.MouseEvent<HTMLButtonElement>
@@ -64,6 +66,7 @@ export const NewsProvider = ({ children }: { children: ReactNode }) => {
         country,
         handleClickOnCountryButton,
         news,
+        isLoading,
         handleButtonsState,
         isActive,
         handleActiveButton,

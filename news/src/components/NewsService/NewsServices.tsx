@@ -1,6 +1,6 @@
 const GetNewsByCategory = async (country: string, category: string) => {
   const response = await fetch(
-    `https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&apiKey=f62196a68b7b41d385329a19658c8625`
+    `https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&apiKey=d00ffb1b2a6e4d0eb9d7635a3423fcfa`
   );
   const data = await response.json();
   return data.articles;
@@ -8,10 +8,18 @@ const GetNewsByCategory = async (country: string, category: string) => {
 
 const GetTopNews = async (country: string) => {
   const response = await fetch(
-    `https://newsapi.org/v2/top-headlines?country=${country}&apiKey=f62196a68b7b41d385329a19658c8625`
+    `https://newsapi.org/v2/top-headlines?country=${country}&apiKey=d00ffb1b2a6e4d0eb9d7635a3423fcfa`
   );
   const data = await response.json();
   return data.articles;
 };
 
-export {GetNewsByCategory, GetTopNews};
+const GetSearchedNews = async (searchTerm: string) => {
+  const response = await fetch(
+    `https://newsapi.org/v2/top-headlines?q=${searchTerm}&apiKey=d00ffb1b2a6e4d0eb9d7635a3423fcfa`
+  );
+  const data = await response.json();
+  return data.articles;
+}
+
+export {GetNewsByCategory, GetTopNews, GetSearchedNews};

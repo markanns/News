@@ -5,8 +5,8 @@ import { Wrap } from "../../styles/Global";
 import { useNewsContext } from "../NewsContext/NewsContext";
 
 const TopNews = () => {
-  const { country } = useNewsContext();
-  const { news } = useNewsContext();
+  const { country, news, isLoading } = useNewsContext();
+
   const newsList = (
     <>
       {news.map((item, index) => (
@@ -25,7 +25,10 @@ const TopNews = () => {
   return (
     <Wrap>
       <h2>Top news from {country}</h2>
-      <NewsHolder>{newsList}</NewsHolder>
+      <NewsHolder>
+        {isLoading && <p>Loading...</p>}
+        {newsList}
+      </NewsHolder>
     </Wrap>
   );
 };
