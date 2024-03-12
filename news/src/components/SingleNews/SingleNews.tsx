@@ -4,24 +4,23 @@ import { Wrap } from "../../styles/Global";
 import { SingleNewsImage } from "./Styled.SingleNews";
 import { useLocation } from "react-router-dom";
 
-
 const SingleNews = () => {
   const { title } = useParams<{ title: string }>();
   const { news } = useNewsContext();
   const { handleButtonsState } = useNewsContext();
   const location = useLocation();
-  
+
   let path;
   if (location.pathname.includes("topNews")) {
     path = "topNews";
   } else if (location.pathname.includes("search")) {
     path = "search";
   }
-  
+
   const handleDisableButton = () => {
     handleButtonsState();
   };
-  const singleNews = news.find((n) => n.title === title);
+  const singleNews = news.find(n => n.title === title);
 
   if (!singleNews) {
     return <div>News not found</div>;

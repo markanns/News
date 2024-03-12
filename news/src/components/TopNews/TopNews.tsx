@@ -1,4 +1,3 @@
-
 import Thumbnail from "../Thumbnail/Thumbnail";
 import { NewsHolder } from "./StyledTopNews";
 import { Wrap } from "../../styles/Global";
@@ -16,7 +15,6 @@ const TopNews = () => {
           description={item.description}
           image={item.urlToImage}
           isSingleThumbnail={true}
-
         />
       ))}
     </>

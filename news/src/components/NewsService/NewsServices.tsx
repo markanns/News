@@ -20,6 +20,6 @@ const GetSearchedNews = async (searchTerm: string) => {
   );
   const data = await response.json();
   return data.articles;
-}
+};
 
-export {GetNewsByCategory, GetTopNews, GetSearchedNews};
+export { GetNewsByCategory, GetTopNews, GetSearchedNews };
