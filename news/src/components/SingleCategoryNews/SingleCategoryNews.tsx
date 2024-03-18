@@ -1,5 +1,5 @@
 import { useParams, Link } from "react-router-dom";
-import { useNewsContext } from "../NewsContext/NewsContext";
+import { useNewsContext } from "../../context/NewsContext";
 import { Wrap } from "../../styles/Global";
 import { SingleNewsImage } from "../SingleNews/Styled.SingleNews";
 import useCategory from "../../hooks/useCategory";

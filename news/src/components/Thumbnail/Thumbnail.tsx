@@ -1,6 +1,6 @@
 import { ThumbnailItem, Image } from "./StyledThumbnail";
 import { Link } from "react-router-dom";
-import { useNewsContext } from "../NewsContext/NewsContext";
+import { useNewsContext } from "../../context/NewsContext";
 import { useLocation } from "react-router-dom";
 
 type ThumbnailNews = {

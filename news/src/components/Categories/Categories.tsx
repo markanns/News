@@ -1,4 +1,4 @@
-import { useNewsContext } from "../NewsContext/NewsContext";
+import { useNewsContext } from "../../context/NewsContext";
 import Category from "./Category/Category";
 import { Wrap } from "../../styles/Global";
 import { NewsHolder } from "./StyledCategories";

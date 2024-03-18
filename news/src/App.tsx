@@ -2,7 +2,7 @@ import { GlobalStyles } from "./styles/Global";
 import { Route, Routes } from "react-router-dom";
 import { TopNews, Categories, Search } from "./components/index";
 import Header from "./components/Header/Header";
-import { NewsProvider } from "./components/NewsContext/NewsContext";
+import { NewsProvider } from "./context/NewsContext";
 import SingleCategoryNews from "./components/SingleCategoryNews/SingleCategoryNews";
 import SingleNews from "./components/SingleNews/SingleNews";
 import AllCategories from "./components/AllCategories/AllCategories";
@@ -21,8 +21,8 @@ function App() {
           </Route>
           <Route path="categories">
             <Route index element={<Categories />} />
-            <Route path=":categorie/:title" element={<SingleCategoryNews />} />
-            <Route path=":categorie/allcategorie" element={<AllCategories />} />
+            <Route path=":category/:title" element={<SingleCategoryNews />} />
+            <Route path=":category/allcategory" element={<AllCategories />} />
           </Route>
           <Route path="search">
             <Route index element={<Search />} />

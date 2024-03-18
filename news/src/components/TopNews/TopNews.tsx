@@ -1,7 +1,7 @@
 import Thumbnail from "../Thumbnail/Thumbnail";
 import { NewsHolder } from "./StyledTopNews";
 import { Wrap } from "../../styles/Global";
-import { useNewsContext } from "../NewsContext/NewsContext";
+import { useNewsContext } from "../../context/NewsContext";
 
 const TopNews = () => {
   const { country, news, isLoading } = useNewsContext();
