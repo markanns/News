@@ -15,7 +15,13 @@ const AllCategories = () => {
     allCategoryNews = Array.from({ length: 5 }, (_, index) => React.cloneElement(<ImagePlaceholder />, { key: index }));
   } else {
     allCategoryNews = singleCategory.map((item, index) => (
-      <Thumbnail key={index} title={item.title} description={item.description} image={item.urlToImage} />
+      <Thumbnail
+        key={index}
+        title={item.title}
+        description={item.description}
+        urlToImage={item.urlToImage}
+        content={item.content}
+      />
     ));
   }
   return (

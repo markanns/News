@@ -2,9 +2,11 @@ import Thumbnail from "../Thumbnail/Thumbnail";
 import { NewsHolder } from "./StyledTopNews";
 import { Wrap } from "../../styles/Global";
 import { useNewsContext } from "../../context/NewsContext";
+import useTopNews from "../../hooks/useTopNews";
 
 const TopNews = () => {
-  const { country, news, isLoading } = useNewsContext();
+  const { country } = useNewsContext();
+  const { news, isLoading } = useTopNews(country);
 
   const newsList = (
     <>
@@ -13,8 +15,8 @@ const TopNews = () => {
           key={index}
           title={item.title}
           description={item.description}
-          image={item.urlToImage}
-          isSingleThumbnail={true}
+          urlToImage={item.urlToImage}
+          content={item.content}
         />
       ))}
     </>

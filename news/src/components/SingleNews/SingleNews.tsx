@@ -1,38 +1,27 @@
-import { useParams, Link } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useNewsContext } from "../../context/NewsContext";
 import { Wrap } from "../../styles/Global";
 import { SingleNewsImage } from "./Styled.SingleNews";
-import { useLocation } from "react-router-dom";
 
 const SingleNews = () => {
-  const { title } = useParams<{ title: string }>();
-  const { news } = useNewsContext();
   const { handleButtonsState } = useNewsContext();
+  const navigate = useNavigate();
   const location = useLocation();
+  const passedState = location.state;
 
-  let path;
-  if (location.pathname.includes("topNews")) {
-    path = "topNews";
-  } else if (location.pathname.includes("search")) {
-    path = "search";
-  }
-
-  const handleDisableButton = () => {
+  const handleButtonEvents = () => {
     handleButtonsState();
+    navigate(-1);
   };
-  const singleNews = news.find(n => n.title === title);
 
-  if (!singleNews) {
-    return <div>News not found</div>;
-  }
   return (
     <Wrap>
-      <h1>{singleNews.title}</h1>
-      <SingleNewsImage src={singleNews.urlToImage} alt={singleNews.title} />
-      <p>{singleNews.content}</p>
-      <Link to={`/${path}`} onClick={handleDisableButton}>
-        back to news
-      </Link>
+      <h1>{passedState.title}</h1>
+      <SingleNewsImage src={passedState.urlToImage} alt={passedState.title} />
+      <p>{passedState.content}</p>
+      <button type="button" onClick={handleButtonEvents}>
+        Go back
+      </button>
     </Wrap>
   );
 };

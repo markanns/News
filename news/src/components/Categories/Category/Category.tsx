@@ -24,9 +24,8 @@ const Category = ({ category }: CategoryProps) => {
           key={index}
           title={item.title}
           description={item.description}
-          image={item.urlToImage}
-          category={category}
-          isCategoryThumbnail={true}
+          urlToImage={item.urlToImage}
+          content={item.content}
         />
       ));
   }

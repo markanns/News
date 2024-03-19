@@ -1,8 +1,7 @@
-import { useState, useMemo, useEffect} from "react";
+import { useState, useMemo, useEffect } from "react";
 import { InputHolder } from "./StyledSearch";
 import { Wrap } from "../../styles/Global";
 import { useNewsContext } from "../../context/NewsContext";
-import { ThumbnailItem, Image } from "../Thumbnail/StyledThumbnail";
 import { NewsHolder } from "../TopNews/StyledTopNews";
 import Thumbnail from "../Thumbnail/Thumbnail";
 import useSearch from "../../hooks/useSearch";
@@ -10,16 +9,17 @@ import { useNavigate, useLocation } from "react-router-dom";
 import useDebounce from "../../hooks/useDebounce";
 import { NewsItem } from "../../types/Article";
 
+import useTopNews from "../../hooks/useTopNews";
 const Search = () => {
-  const { news, setIsActive } = useNewsContext();
+  const { setIsActive, country } = useNewsContext();
   const location = useLocation();
   const navigate = useNavigate();
-
+  const { news, isLoading } = useTopNews(country);
   const params = useMemo(() => new URLSearchParams(location.search), [location.search]);
   const [inputValue, setInputValue] = useState(params.get("term") || "");
-  const {debouncedValue} = useDebounce(inputValue, 1000);
-  const { result, isLoading, isError} = useSearch(debouncedValue);
-  
+  const { debouncedValue } = useDebounce(inputValue, 1000);
+  const { result, isError } = useSearch(debouncedValue);
+
   useEffect(() => {
     if (debouncedValue) {
       navigate(`/search?term=${debouncedValue}`);
@@ -35,12 +35,13 @@ const Search = () => {
   };
 
   const articles = result.map((item: NewsItem, index: number) => (
-    <ThumbnailItem key={index}>
-      <h3>{item.title}</h3>
-      <p>{item.description}</p>
-      <Image src={item.urlToImage} alt={item.title} />
-      <p>{item.content}</p>
-    </ThumbnailItem>
+    <Thumbnail
+      key={index}
+      title={item.title}
+      description={item.description}
+      urlToImage={item.urlToImage}
+      content={item.content}
+    />
   ));
 
   const allNews = news.map((item, index) => (
@@ -48,8 +49,8 @@ const Search = () => {
       key={index}
       title={item.title}
       description={item.description}
-      image={item.urlToImage}
-      isSingleThumbnail={true}
+      urlToImage={item.urlToImage}
+      content={item.content}
     />
   ));
 
