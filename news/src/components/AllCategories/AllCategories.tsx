@@ -5,7 +5,6 @@ import { NewsHolder } from "../TopNews/StyledTopNews";
 import { Wrap } from "../../styles/Global";
 import useNews, { GetTopNews } from "../../hooks/useNews";
 
-import { NewsItem } from "../../types/Article";
 import { useNewsContext } from "../../context/NewsContext";
 import ImagePlaceholder from "../ImagePlaceholder/ImagePlaceholder";
 
@@ -13,9 +12,8 @@ const AllCategories = () => {
   const { country } = useNewsContext();
   const { category } = useParams() as { category: string };
   const { news, isLoading, isError } = useNews(
-    GetTopNews as (arg1: string, arg2?: string | undefined) => Promise<{ data: NewsItem[]; error: undefined }>,
+    GetTopNews,
     country,
-    ""
   );
 
   let allCategoryNews;
