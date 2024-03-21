@@ -2,11 +2,16 @@ import Thumbnail from "../Thumbnail/Thumbnail";
 import { NewsHolder } from "./StyledTopNews";
 import { Wrap } from "../../styles/Global";
 import { useNewsContext } from "../../context/NewsContext";
-import useTopNews from "../../hooks/useTopNews";
+import { NewsItem } from "../../types/Article";
+import useNews, { GetTopNews } from "../../hooks/useNews";
 
 const TopNews = () => {
   const { country } = useNewsContext();
-  const { news, isLoading } = useTopNews(country);
+  const { news, isLoading, isError } = useNews(
+    GetTopNews as (arg1: string, arg2?: string | undefined) => Promise<{ data: NewsItem[]; error: undefined }>,
+    country,
+    ""
+  );
 
   const newsList = (
     <>
@@ -26,6 +31,7 @@ const TopNews = () => {
     <Wrap>
       <h2>Top news from {country}</h2>
       <NewsHolder>
+        {isError && <p>Something went wrong...</p>}
         {isLoading && <p>Loading...</p>}
         {newsList}
       </NewsHolder>

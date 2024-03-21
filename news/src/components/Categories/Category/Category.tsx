@@ -1,23 +1,31 @@
+import React from "react";
 import Thumbnail from "../../Thumbnail/Thumbnail";
 import { NewsHolder } from "../StyledCategories";
 import { LinkItem } from "./StyledCategory";
-import useCategory from "../../../hooks/useCategory";
-import React from "react";
+import useNews, { GetNewsByCategory } from "../../../hooks/useNews";
+import { NewsItem } from "../../../types/Article";
+import { useNewsContext } from "../../../context/NewsContext";
 import ImagePlaceholder from "../../ImagePlaceholder/ImagePlaceholder";
 
 type CategoryProps = {
   category: string;
 };
 const Category = ({ category }: CategoryProps) => {
-  const { singleCategory, isLoading, isError } = useCategory(category);
+  const { country } = useNewsContext();
 
+  const { news, isLoading, isError } = useNews(
+    GetNewsByCategory as (arg1: string, arg2?: string | undefined) => Promise<{ data: NewsItem[]; error: undefined }>,
+    country,
+    category
+  );
   let technologyNewsList;
-  if (isLoading || !singleCategory) {
+
+  if (isLoading || !news) {
     technologyNewsList = Array.from({ length: 5 }, (_, index) =>
       React.cloneElement(<ImagePlaceholder />, { key: index })
     );
   } else {
-    technologyNewsList = singleCategory
+    technologyNewsList = news
       .slice(0, 5)
       .map((item, index) => (
         <Thumbnail

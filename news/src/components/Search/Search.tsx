@@ -4,22 +4,33 @@ import { Wrap } from "../../styles/Global";
 import { useNewsContext } from "../../context/NewsContext";
 import { NewsHolder } from "../TopNews/StyledTopNews";
 import Thumbnail from "../Thumbnail/Thumbnail";
-import useSearch from "../../hooks/useSearch";
 import { useNavigate, useLocation } from "react-router-dom";
 import useDebounce from "../../hooks/useDebounce";
 import { NewsItem } from "../../types/Article";
+import useNews, { GetSearchedNews, GetTopNews } from "../../hooks/useNews";
 
-import useTopNews from "../../hooks/useTopNews";
 const Search = () => {
   const { setIsActive, country } = useNewsContext();
   const location = useLocation();
   const navigate = useNavigate();
-  const { news, isLoading } = useTopNews(country);
+  const {
+    news: topNews,
+    isLoading,
+    isError,
+  } = useNews(
+    GetTopNews as (arg1: string, arg2?: string | undefined) => Promise<{ data: NewsItem[]; error: undefined }>,
+    country,
+    ""
+  );
+
   const params = useMemo(() => new URLSearchParams(location.search), [location.search]);
   const [inputValue, setInputValue] = useState(params.get("term") || "");
   const { debouncedValue } = useDebounce(inputValue, 1000);
-  const { result, isError } = useSearch(debouncedValue);
-
+  const { news: searchedNews } = useNews(
+    GetSearchedNews as (arg1: string, arg2?: string | undefined) => Promise<{ data: NewsItem[]; error: undefined }>,
+    debouncedValue,
+    ""
+  );
   useEffect(() => {
     if (debouncedValue) {
       navigate(`/search?term=${debouncedValue}`);
@@ -30,21 +41,13 @@ const Search = () => {
     }
   }, [debouncedValue, navigate, setIsActive]);
 
+  const news = debouncedValue ? searchedNews : topNews;
+
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
   };
 
-  const articles = result.map((item: NewsItem, index: number) => (
-    <Thumbnail
-      key={index}
-      title={item.title}
-      description={item.description}
-      urlToImage={item.urlToImage}
-      content={item.content}
-    />
-  ));
-
-  const allNews = news.map((item, index) => (
+  const articles = news.map((item: NewsItem, index: number) => (
     <Thumbnail
       key={index}
       title={item.title}
@@ -62,7 +65,7 @@ const Search = () => {
       </InputHolder>
       {isError && <p>Something went wrong...</p>}
       {isLoading && <p>Loading...</p>}
-      <NewsHolder>{inputValue ? articles : allNews}</NewsHolder>
+      <NewsHolder>{articles}</NewsHolder>
     </Wrap>
   );
 };

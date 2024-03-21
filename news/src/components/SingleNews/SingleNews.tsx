@@ -13,6 +13,9 @@ const SingleNews = () => {
     handleButtonsState();
     navigate(-1);
   };
+  if (!passedState) {
+    navigate("/");
+  }
 
   return (
     <Wrap>

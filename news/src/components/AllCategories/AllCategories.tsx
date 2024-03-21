@@ -3,18 +3,26 @@ import { useParams } from "react-router-dom";
 import Thumbnail from "../Thumbnail/Thumbnail";
 import { NewsHolder } from "../TopNews/StyledTopNews";
 import { Wrap } from "../../styles/Global";
-import useCategory from "../../hooks/useCategory";
+import useNews, { GetTopNews } from "../../hooks/useNews";
+
+import { NewsItem } from "../../types/Article";
+import { useNewsContext } from "../../context/NewsContext";
 import ImagePlaceholder from "../ImagePlaceholder/ImagePlaceholder";
 
 const AllCategories = () => {
+  const { country } = useNewsContext();
   const { category } = useParams() as { category: string };
-  const { singleCategory, isLoading, isError } = useCategory(category);
+  const { news, isLoading, isError } = useNews(
+    GetTopNews as (arg1: string, arg2?: string | undefined) => Promise<{ data: NewsItem[]; error: undefined }>,
+    country,
+    ""
+  );
 
   let allCategoryNews;
-  if (isLoading || !singleCategory) {
+  if (isLoading || !news) {
     allCategoryNews = Array.from({ length: 5 }, (_, index) => React.cloneElement(<ImagePlaceholder />, { key: index }));
   } else {
-    allCategoryNews = singleCategory.map((item, index) => (
+    allCategoryNews = news.map((item, index) => (
       <Thumbnail
         key={index}
         title={item.title}
