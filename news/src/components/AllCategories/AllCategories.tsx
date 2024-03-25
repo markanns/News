@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import Thumbnail from "../Thumbnail/Thumbnail";
 import { NewsHolder } from "../TopNews/StyledTopNews";
 import { Wrap } from "../../styles/Global";
-import useNews, { GetTopNews } from "../../hooks/useNews";
+import useNews, { GetNewsByCategory } from "../../hooks/useNews";
 
 import { useNewsContext } from "../../context/NewsContext";
 import ImagePlaceholder from "../ImagePlaceholder/ImagePlaceholder";
@@ -11,13 +11,10 @@ import ImagePlaceholder from "../ImagePlaceholder/ImagePlaceholder";
 const AllCategories = () => {
   const { country } = useNewsContext();
   const { category } = useParams() as { category: string };
-  const { news, isLoading, isError } = useNews(
-    GetTopNews,
-    country,
-  );
+  const { data: news, isPending, isError } = useNews(GetNewsByCategory, country, category);
 
   let allCategoryNews;
-  if (isLoading || !news) {
+  if (isPending || !news) {
     allCategoryNews = Array.from({ length: 5 }, (_, index) => React.cloneElement(<ImagePlaceholder />, { key: index }));
   } else {
     allCategoryNews = news.map((item, index) => (
@@ -35,7 +32,7 @@ const AllCategories = () => {
       <Wrap>
         <h1>{category}</h1>
         {isError && <p>Something went wrong...</p>}
-        {isLoading && <p>Loading...</p>}
+        {isPending && <p>Loading...</p>}
         <NewsHolder>{allCategoryNews}</NewsHolder>
       </Wrap>
     </div>
