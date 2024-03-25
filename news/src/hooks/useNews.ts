@@ -1,31 +1,19 @@
-import { useState, useEffect } from "react";
 import { GetTopNews, GetNewsByCategory, GetSearchedNews, DiscriminatedType } from "../service/Service";
-import { NewsItem } from "../types/Article";
+import { useQuery } from "@tanstack/react-query";
 
-const useNews = <T>(
-  fetchFunction: (...args: Array<T>) => Promise<DiscriminatedType>,
-  ...args: Array<T>
-) => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [isError, setIsError] = useState(false);
-  const [news, setNews] = useState<NewsItem[]>([]);
-
-  useEffect(() => {
-    fetchFunction(...args)
-      .then(res => {
-        if ('error' in res) {
-          setIsError(true);
-          return;
-        }
-        setNews(res.data);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [ fetchFunction, ...args]);
-
-  return { news, isLoading, isError };
+const useNews = <T>(fetchFunction: (...args: Array<T>) => Promise<DiscriminatedType>, ...args: Array<T>) => {
+  return useQuery({
+    queryKey: ["news", ...args],
+    enabled: args.every(arg => arg !== ""),
+    queryFn: async () => {
+      // if (args.some(arg => arg === "")) return [];
+      const result = await fetchFunction(...args);
+      if ("error" in result) {
+        throw new Error(result.error);
+      }
+      return result.data;
+    },
+  });
 };
 
 export default useNews;
