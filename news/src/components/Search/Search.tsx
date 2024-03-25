@@ -13,24 +13,12 @@ const Search = () => {
   const { setIsActive, country } = useNewsContext();
   const location = useLocation();
   const navigate = useNavigate();
-  const {
-    news: topNews,
-    isLoading,
-    isError,
-  } = useNews(
-    GetTopNews as (arg1: string, arg2?: string | undefined) => Promise<{ data: NewsItem[]; error: undefined }>,
-    country,
-    ""
-  );
-
+  const { data: topNews, isPending, isError } = useNews(GetTopNews, country);
   const params = useMemo(() => new URLSearchParams(location.search), [location.search]);
   const [inputValue, setInputValue] = useState(params.get("term") || "");
   const { debouncedValue } = useDebounce(inputValue, 1000);
-  const { news: searchedNews } = useNews(
-    GetSearchedNews as (arg1: string, arg2?: string | undefined) => Promise<{ data: NewsItem[]; error: undefined }>,
-    debouncedValue,
-    ""
-  );
+  const { data: searchedNews } = useNews(GetSearchedNews, debouncedValue);
+
   useEffect(() => {
     if (debouncedValue) {
       navigate(`/search?term=${debouncedValue}`);
@@ -47,7 +35,7 @@ const Search = () => {
     setInputValue(event.target.value);
   };
 
-  const articles = news.map((item: NewsItem, index: number) => (
+  const articles = news?.map((item: NewsItem, index: number) => (
     <Thumbnail
       key={index}
       title={item.title}
@@ -64,7 +52,7 @@ const Search = () => {
         <input type="text" value={inputValue} placeholder="Search for news..." onChange={handleInputChange} />
       </InputHolder>
       {isError && <p>Something went wrong...</p>}
-      {isLoading && <p>Loading...</p>}
+      {isPending && <p>Loading...</p>}
       <NewsHolder>{articles}</NewsHolder>
     </Wrap>
   );
