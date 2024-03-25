@@ -3,8 +3,7 @@ import { NewsItem } from "../types/Article";
 const newsApiKey = import.meta.env.VITE_APP_NEWS_API_KEY;
 const baseUrl = "https://newsapi.org/v2/top-headlines";
 
-
-export type DiscriminatedType = { data: Array<NewsItem> } | { error: string }
+export type DiscriminatedType = { data: Array<NewsItem> } | { error: string };
 
 const GetNewsByCategory = async (country: string, category: string): Promise<DiscriminatedType> => {
   try {
@@ -19,7 +18,7 @@ const GetNewsByCategory = async (country: string, category: string): Promise<Dis
   }
 };
 
-const GetTopNews = async (country: string): Promise<DiscriminatedType>  => {
+const GetTopNews = async (country: string): Promise<DiscriminatedType> => {
   try {
     const response = await fetch(`${baseUrl}?country=${country}&apiKey=${newsApiKey}`);
     if (!response.ok) {
@@ -32,7 +31,7 @@ const GetTopNews = async (country: string): Promise<DiscriminatedType>  => {
   }
 };
 
-const GetSearchedNews = async (searchTerm: string): Promise<DiscriminatedType>  => {
+const GetSearchedNews = async (searchTerm: string): Promise<DiscriminatedType> => {
   try {
     const response = await fetch(`${baseUrl}?q=${searchTerm}&apiKey=${newsApiKey}`);
     if (!response.ok) {
