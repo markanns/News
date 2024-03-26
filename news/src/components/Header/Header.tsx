@@ -15,10 +15,10 @@ const Header = () => {
   const [active, setActive] = useState<number>(1);
   const { handleClickOnCountryButton } = useNewsContext();
   const { isActive } = useNewsContext();
-  const { handleActiveButton } = useNewsContext();
+  const { handleButtonsState } = useNewsContext();
 
   const handleDisableButton = () => {
-    handleActiveButton();
+    handleButtonsState();
   };
   const handleCountryChange = (event: React.MouseEvent<HTMLButtonElement>, id: number) => {
     handleClickOnCountryButton(event);
