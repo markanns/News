@@ -5,7 +5,6 @@ type NewsContextType = {
   handleClickOnCountryButton: (event: React.MouseEvent<HTMLButtonElement>) => void;
   setIsActive: React.Dispatch<React.SetStateAction<boolean>>;
   handleButtonsState: () => void;
-  handleActiveButton: () => void;
 };
 const NewsContext = createContext<NewsContextType>({
   country: "",
@@ -13,7 +12,6 @@ const NewsContext = createContext<NewsContextType>({
   setIsActive: () => {},
   handleClickOnCountryButton: () => {},
   handleButtonsState: () => {},
-  handleActiveButton: () => {},
 });
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -31,9 +29,6 @@ export const NewsProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const handleButtonsState = () => {
-    setIsActive(!isActive);
-  };
-  const handleActiveButton = () => {
     if (isActive === false) {
       setIsActive(true);
     }
@@ -46,7 +41,6 @@ export const NewsProvider = ({ children }: { children: ReactNode }) => {
         handleButtonsState,
         setIsActive,
         isActive,
-        handleActiveButton,
       }}
     >
       {children}
