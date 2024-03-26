@@ -13,14 +13,14 @@ const Category = ({ category }: CategoryProps) => {
   const { country } = useNewsContext();
 
   const { data: news, isPending, isError } = useNews(GetNewsByCategory, country, category);
-  let technologyNewsList;
+  let categoryNewsList;
 
   if (isPending || !news) {
-    technologyNewsList = Array.from({ length: 5 }, (_, index) =>
+    categoryNewsList = Array.from({ length: 5 }, (_, index) =>
       React.cloneElement(<ImagePlaceholder />, { key: index })
     );
   } else {
-    technologyNewsList = news
+    categoryNewsList = news
       .slice(0, 5)
       .map((item, index) => (
         <Thumbnail
@@ -37,7 +37,7 @@ const Category = ({ category }: CategoryProps) => {
       <LinkItem to={`${category}`}>{category}</LinkItem>
       {isError && <p>Something went wrong...</p>}
       {isPending && <p>Loading...</p>}
-      <NewsHolder>{technologyNewsList}</NewsHolder>
+      <NewsHolder>{categoryNewsList}</NewsHolder>
     </div>
   );
 };
