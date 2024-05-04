@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
 import { useState } from "react";
-import { useNewsContext } from "../NewsContext/NewsContext";
+import { useNewsContext } from "../../context/NewsContext";
 import {
   HeaderStyle,
   HeaderHolder,
@@ -15,15 +15,12 @@ const Header = () => {
   const [active, setActive] = useState<number>(1);
   const { handleClickOnCountryButton } = useNewsContext();
   const { isActive } = useNewsContext();
-  const { handleActiveButton } = useNewsContext();
+  const { handleButtonsState } = useNewsContext();
 
   const handleDisableButton = () => {
-    handleActiveButton();
+    handleButtonsState();
   };
-  const handleCountryChange = (
-    event: React.MouseEvent<HTMLButtonElement>,
-    id: number
-  ) => {
+  const handleCountryChange = (event: React.MouseEvent<HTMLButtonElement>, id: number) => {
     handleClickOnCountryButton(event);
     setActive(id);
   };
@@ -33,12 +30,12 @@ const Header = () => {
     { id: 2, name: "GB" },
   ];
 
-  const countryButton = listOfCountries.map((item) => (
+  const countryButton = listOfCountries.map(item => (
     <CountryButton
       type="button"
       $isActive={active === item.id}
       key={item.id}
-      onClick={(event) => handleCountryChange(event, item.id)}
+      onClick={event => handleCountryChange(event, item.id)}
       disabled={!isActive}
     >
       {item.name}

@@ -29,7 +29,10 @@ export const NavLinkItem = styled.span`
     }
   }
 `;
-export const CountryButton = styled.button<{ $isActive: boolean, disabled: boolean }>`
+export const CountryButton = styled.button<{
+  $isActive: boolean;
+  disabled: boolean;
+}>`
   background-color: #f8f8f8;
   padding: 10px 15px;
   font-size: 16px;
@@ -37,6 +40,6 @@ export const CountryButton = styled.button<{ $isActive: boolean, disabled: boole
   &:hover {
     cursor: pointer;
   }
-  pointer-events: ${(props) => props.disabled && `none`};
-  ${(props) => props.$isActive && `pointer-events: none; background-color: #e8e8e8;`}
+  pointer-events: ${props => props.disabled && `none`};
+  ${props => props.$isActive && `pointer-events: none; background-color: #e8e8e8;`}
 `;

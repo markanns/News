@@ -1,52 +1,36 @@
+import React from "react";
 import { useParams } from "react-router-dom";
-import { useNewsContext } from "../NewsContext/NewsContext";
-import ChategoriesThumbnail from "../CategoriesThumbnail/CategoriesThumbnail";
-import { NewsHolder } from "../News/StyledNews";
+import Thumbnail from "../Thumbnail/Thumbnail";
+import { NewsHolder } from "../TopNews/StyledTopNews";
 import { Wrap } from "../../styles/Global";
+import { useCategoryNews } from "../../hooks/useNews";
+import ImagePlaceholder from "../ImagePlaceholder/ImagePlaceholder";
 
 const AllCategories = () => {
-  const { businessNews } = useNewsContext();
-  const { technologyNews } = useNewsContext();
-  const { categorie } = useParams<{ categorie: string }>();
+  const { category } = useParams() as { category: string };
+  const { data: news, isPending, isError } = useCategoryNews(category);
 
-  let allCategorieNews;
-  if (categorie === "technology") {
-    allCategorieNews = (
-      <>
-        {technologyNews.map((item, index) => (
-          <ChategoriesThumbnail
-          key={index}
-          title={item.title}
-          description={item.description}
-          image={item.urlToImage}
-        />
-        ))}
-      </>
-    );
+  let allCategoryNews;
+  if (isPending || !news) {
+    allCategoryNews = Array.from({ length: 5 }, (_, index) => React.cloneElement(<ImagePlaceholder />, { key: index }));
+  } else {
+    allCategoryNews = news.map((item, index) => (
+      <Thumbnail
+        key={index}
+        title={item.title}
+        description={item.description}
+        urlToImage={item.urlToImage}
+        content={item.content}
+      />
+    ));
   }
-  if (categorie === "business") {
-    allCategorieNews = (
-      <>
-        {businessNews.map((item, index) => (
-          <ChategoriesThumbnail
-          key={index}
-          title={item.title}
-          description={item.description}
-          image={item.urlToImage}
-        />
-        ))}
-      </>
-    );
-  }
-
-  
   return (
     <div>
       <Wrap>
-        <h1>{categorie}</h1> 
-        <NewsHolder>
-          {allCategorieNews}
-        </NewsHolder>
+        <h1>{category}</h1>
+        {isError && <p>Something went wrong...</p>}
+        {isPending && <p>Loading...</p>}
+        <NewsHolder>{allCategoryNews}</NewsHolder>
       </Wrap>
     </div>
   );
