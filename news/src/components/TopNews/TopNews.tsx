@@ -3,6 +3,7 @@ import { NewsHolder } from "./StyledTopNews";
 import { Wrap } from "../../styles/Global";
 import { useNewsContext } from "../../context/NewsContext";
 import { useTopNews } from "../../hooks/useNews";
+import { NewsItem } from "../../types/Article";
 
 const TopNews = () => {
   const { country } = useNewsContext();
@@ -10,7 +11,7 @@ const TopNews = () => {
 
   const newsList = (
     <>
-      {news?.map((item: { title: string; description: string; urlToImage: string; content: string }, index: number) => (
+      {news?.map((item: NewsItem, index: number) => (
         <Thumbnail
           key={index}
           title={item.title}
