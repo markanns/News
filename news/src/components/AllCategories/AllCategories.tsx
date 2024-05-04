@@ -3,24 +3,12 @@ import { useParams } from "react-router-dom";
 import Thumbnail from "../Thumbnail/Thumbnail";
 import { NewsHolder } from "../TopNews/StyledTopNews";
 import { Wrap } from "../../styles/Global";
-<<<<<<< HEAD
-import useNews, { GetNewsByCategory } from "../../hooks/useNews";
-
-import { useNewsContext } from "../../context/NewsContext";
-import ImagePlaceholder from "../ImagePlaceholder/ImagePlaceholder";
-
-const AllCategories = () => {
-  const { country } = useNewsContext();
-  const { category } = useParams() as { category: string };
-  const { data: news, isPending, isError } = useNews(GetNewsByCategory, country, category);
-=======
 import { useCategoryNews } from "../../hooks/useNews";
 import ImagePlaceholder from "../ImagePlaceholder/ImagePlaceholder";
 
 const AllCategories = () => {
   const { category } = useParams() as { category: string };
   const { data: news, isPending, isError } = useCategoryNews(category);
->>>>>>> refactor
 
   let allCategoryNews;
   if (isPending || !news) {
