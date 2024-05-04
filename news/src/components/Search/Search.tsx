@@ -7,17 +7,17 @@ import Thumbnail from "../Thumbnail/Thumbnail";
 import { useNavigate, useLocation } from "react-router-dom";
 import useDebounce from "../../hooks/useDebounce";
 import { NewsItem } from "../../types/Article";
-import useNews, { GetSearchedNews, GetTopNews } from "../../hooks/useNews";
+import { useTopNews, useSearchedNews } from "../../hooks/useNews";
 
 const Search = () => {
-  const { setIsActive, country } = useNewsContext();
+  const { setIsActive } = useNewsContext();
   const location = useLocation();
   const navigate = useNavigate();
-  const { data: topNews, isPending, isError } = useNews(GetTopNews, country);
+  const { data: topNews, isPending, isError } = useTopNews();
   const params = useMemo(() => new URLSearchParams(location.search), [location.search]);
   const [inputValue, setInputValue] = useState(params.get("term") || "");
   const { debouncedValue } = useDebounce(inputValue, 1000);
-  const { data: searchedNews } = useNews(GetSearchedNews, debouncedValue);
+  const { data: searchedNews } = useSearchedNews(debouncedValue);
 
   useEffect(() => {
     if (debouncedValue) {

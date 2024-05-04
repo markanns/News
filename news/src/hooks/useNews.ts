@@ -1,20 +1,30 @@
-import { GetTopNews, GetNewsByCategory, GetSearchedNews, DiscriminatedType } from "../service/Service";
+import { GetTopNews, GetNewsByCategory, GetSearchedNews } from "../service/Service";
 import { useQuery } from "@tanstack/react-query";
+import { useNewsContext } from "../context/NewsContext";
 
-const useNews = <T>(fetchFunction: (...args: Array<T>) => Promise<DiscriminatedType>, ...args: Array<T>) => {
+const useCategoryNews = (category: string) => {
+  const { country } = useNewsContext();
+
   return useQuery({
-    queryKey: ["news", ...args],
-    enabled: args.every(arg => arg !== ""),
-    queryFn: async () => {
-      // if (args.some(arg => arg === "")) return [];
-      const result = await fetchFunction(...args);
-      if ("error" in result) {
-        throw new Error(result.error);
-      }
-      return result.data;
-    },
+    queryKey: [country, category],
+    queryFn: () => GetNewsByCategory(country, category),
   });
 };
 
-export default useNews;
+const useTopNews = () => {
+  const { country } = useNewsContext();
+
+  return useQuery({
+    queryKey: [country],
+    queryFn: () => GetTopNews(country),
+  });
+};
+const useSearchedNews = (searchTerm: string) => {
+  return useQuery({
+    queryKey: [searchTerm],
+    queryFn: () => GetSearchedNews(searchTerm),
+    enabled: searchTerm !== "",
+  });
+};
+export { useCategoryNews, useTopNews, useSearchedNews };
 export { GetTopNews, GetNewsByCategory, GetSearchedNews };

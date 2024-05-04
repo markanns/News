@@ -2,14 +2,15 @@ import Thumbnail from "../Thumbnail/Thumbnail";
 import { NewsHolder } from "./StyledTopNews";
 import { Wrap } from "../../styles/Global";
 import { useNewsContext } from "../../context/NewsContext";
-import useNews, { GetTopNews } from "../../hooks/useNews";
+import { useTopNews } from "../../hooks/useNews";
 
 const TopNews = () => {
   const { country } = useNewsContext();
-  const { data: news, isPending, isError } = useNews(GetTopNews, country);
+  const { data: news, isPending, isError } = useTopNews();
+
   const newsList = (
     <>
-      {news?.map((item, index) => (
+      {news?.map((item: { title: string; description: string; urlToImage: string; content: string }, index: number) => (
         <Thumbnail
           key={index}
           title={item.title}
